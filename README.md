@@ -4,6 +4,7 @@ Transformer-based Bitcoin Direction Classifier with Triple Barrier Labeling
 Alpha Barrier is a deep learning model for financial time series classification, built on a Transformer architecture and volatility-adaptive triple barrier method.
 It predicts short-term directional bias (Up / Sideways / Down) for Bitcoin based on multi-timeframe technical indicators, ATR-driven volatility measures, and halving-cycle macro signals. Most technical indicators are computed using [Pandas TA](https://pypi.org/project/pandas-ta/).
 
+**Disclaimer**: This work represents a proof of concept. While the project provided useful insights, its empirical performance fell short of expectations. It is published here to document the approach and support future work.
 ## Architecture
 ```
 ┌──────────────────────┐   ┌──────────────────────┐   ┌────────────────────────────┐  
