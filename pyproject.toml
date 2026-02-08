@@ -3,7 +3,7 @@ name = "alpha-barrier"
 version = "0.1.0"
 description = ""
 readme = "README.md"
-requires-python = ">=3.12"
+requires-python = ">=3.12,<3.14"
 dependencies = [
     "autograd>=1.8.0",
     "backtesting>=0.6.4",
@@ -28,3 +28,14 @@ dependencies = [
     "tqdm>=4.67.1",
     "transformers>=4.53.1",
 ]
+
+[[tool.uv.index]]
+name = "pytorch-gpu"
+# CHANGED: cu124 -> cu126
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.uv.sources]
+torch = { index = "pytorch-gpu" }
+torchvision = { index = "pytorch-gpu" }
+torchaudio = { index = "pytorch-gpu" }

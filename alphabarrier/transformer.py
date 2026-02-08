@@ -26,6 +26,7 @@ DROPOUT = 0.3
 N_SPLITS = 5
 NHEAD = 8  # Transformer heads
 device = torch.device('mps' if torch.mps.is_available() else 'cuda' if torch.cuda.is_available() else 'cpu')
+print(f"Using device {device}")
 
 # --- Triple Barrier Method Parameters ---
 HORIZON_MULTIPLIER = 2.5  # Dynamic horizon multiplier
