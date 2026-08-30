@@ -1,13 +1,7 @@
 # Project specific
 ignore/
 training_data/*
-training_data/Kraken_OHLCVT
-best_model*
-best_transformer*
-scaler.pkl
-final_scaler.pkl
-final_transformer_model.pt
-TransformerStrategy.html
+old_transformer/artifacts/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -19,6 +13,7 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.python-runtime/
 build/
 develop-eggs/
 dist/

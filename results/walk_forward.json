@@ -1,0 +1,145 @@
+{
+  "status": "development_result",
+  "claim_warning": "Not a holdout result and not evidence of a deployable trading strategy.",
+  "protocol": "six-month purged walk-forward; forced direction on every bar; prior purged 12-month threshold calibration; final label-horizon embargo",
+  "development_start": "2021-07-01 00:00:00",
+  "development_boundary": "2025-07-01 00:00:00",
+  "development_signal_end_exclusive": "2025-06-29 00:00:00",
+  "later_evaluation_end_exclusive": "2026-07-01 00:00:00",
+  "screened_configurations_lower_bound": 270,
+  "model": {
+    "type": "balanced_logistic_regression",
+    "C": 0.5,
+    "always_call": true,
+    "price_features": 17,
+    "order_flow_features": 12,
+    "mature_outcome_features": 6,
+    "outcome_lag_bars": 13,
+    "decision_threshold_grid": [
+      0.47,
+      0.475,
+      0.48,
+      0.485,
+      0.49,
+      0.495,
+      0.5,
+      0.505,
+      0.51,
+      0.515,
+      0.52,
+      0.525,
+      0.53
+    ]
+  },
+  "backtesting_example": {
+    "side_mode": "long_only",
+    "weak_calls": "hold_previous_model_state",
+    "confidence_floor": 0.02,
+    "trend_filter_ema_span": 720,
+    "commission_per_side": 0.001
+  },
+  "result": {
+    "windows": 8,
+    "call_coverage": 1.0,
+    "directional_samples": 7228,
+    "correct": 3861,
+    "directional_accuracy": 0.5341726618705036,
+    "directional_accuracy_block_bootstrap_ci95": [
+      0.5131398727172108,
+      0.5557553956834532
+    ],
+    "causal_majority_baseline_accuracy": 0.48353624792473715,
+    "window_rate_above_50_percent": 1.0,
+    "backtesting_example": {
+      "total_return": 1.5020415387431183,
+      "annualized_log_return": 0.22961727652795544,
+      "sharpe": 0.9057649857382899,
+      "max_drawdown": -0.25018521686773665,
+      "bar_exposure": 0.297464016449623,
+      "fee_sides": 664.0,
+      "commission_per_side": 0.001
+    },
+    "folds": [
+      {
+        "test_start": "2021-07-01 00:00:00",
+        "threshold": 0.505,
+        "calibration_directional_rows": 1843,
+        "calibration_accuracy": 0.47205642973412915,
+        "directional_rows": 939,
+        "correct": 475,
+        "accuracy": 0.5058572949946751,
+        "causal_baseline_accuracy": 0.5133120340788072
+      },
+      {
+        "test_start": "2022-01-01 00:00:00",
+        "threshold": 0.525,
+        "calibration_directional_rows": 1862,
+        "calibration_accuracy": 0.5091299677765844,
+        "directional_rows": 905,
+        "correct": 484,
+        "accuracy": 0.5348066298342542,
+        "causal_baseline_accuracy": 0.4121546961325967
+      },
+      {
+        "test_start": "2022-07-01 00:00:00",
+        "threshold": 0.505,
+        "calibration_directional_rows": 1832,
+        "calibration_accuracy": 0.5207423580786026,
+        "directional_rows": 848,
+        "correct": 442,
+        "accuracy": 0.5212264150943396,
+        "causal_baseline_accuracy": 0.4705188679245283
+      },
+      {
+        "test_start": "2023-01-01 00:00:00",
+        "threshold": 0.515,
+        "calibration_directional_rows": 1745,
+        "calibration_accuracy": 0.5260744985673352,
+        "directional_rows": 921,
+        "correct": 488,
+        "accuracy": 0.5298588490770901,
+        "causal_baseline_accuracy": 0.44842562432138977
+      },
+      {
+        "test_start": "2023-07-01 00:00:00",
+        "threshold": 0.5,
+        "calibration_directional_rows": 1760,
+        "calibration_accuracy": 0.5301136363636364,
+        "directional_rows": 867,
+        "correct": 498,
+        "accuracy": 0.5743944636678201,
+        "causal_baseline_accuracy": 0.5271049596309112
+      },
+      {
+        "test_start": "2024-01-01 00:00:00",
+        "threshold": 0.49,
+        "calibration_directional_rows": 1777,
+        "calibration_accuracy": 0.5548677546426561,
+        "directional_rows": 907,
+        "correct": 481,
+        "accuracy": 0.5303197353914002,
+        "causal_baseline_accuracy": 0.5060639470782801
+      },
+      {
+        "test_start": "2024-07-01 00:00:00",
+        "threshold": 0.53,
+        "calibration_directional_rows": 1762,
+        "calibration_accuracy": 0.5561861520998865,
+        "directional_rows": 954,
+        "correct": 523,
+        "accuracy": 0.5482180293501048,
+        "causal_baseline_accuracy": 0.5146750524109015
+      },
+      {
+        "test_start": "2025-01-01 00:00:00",
+        "threshold": 0.505,
+        "calibration_directional_rows": 1849,
+        "calibration_accuracy": 0.531638723634397,
+        "directional_rows": 887,
+        "correct": 470,
+        "accuracy": 0.5298759864712514,
+        "causal_baseline_accuracy": 0.4746335963923337
+      }
+    ]
+  }
+}

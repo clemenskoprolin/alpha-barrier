@@ -1,0 +1,37 @@
+{
+  "status": "retrospective_later_evaluation",
+  "warning": "The model configuration was selected after extensive screening that included parts of this period. Treat this as a retrospective split, not a pristine holdout claim.",
+  "test_start": "2025-07-01 00:00:00",
+  "test_end_exclusive": "2026-07-01 00:00:00",
+  "protocol": {
+    "train_end_exclusive": "2025-06-29 00:00:00",
+    "label_horizon_bars": 12,
+    "decision_threshold": 0.525,
+    "execution": {
+      "side_mode": "long_only",
+      "weak_calls": "hold_previous_model_state",
+      "confidence_floor": 0.02,
+      "trend_filter_ema_span": 720,
+      "commission_per_side": 0.001
+    }
+  },
+  "classification": {
+    "directional_samples": 1889,
+    "correct": 1048,
+    "directional_accuracy": 0.5547908946532557,
+    "directional_accuracy_block_bootstrap_ci95": [
+      0.5129698253043938,
+      0.5982001058761249
+    ],
+    "causal_majority_baseline_accuracy": 0.48438327157226047
+  },
+  "execution": {
+    "total_return": 0.02512283616682387,
+    "annualized_log_return": 0.024840783221991763,
+    "sharpe": 0.21901700717027875,
+    "max_drawdown": -0.08505804773606351,
+    "bar_exposure": 0.11232876712328767,
+    "fee_sides": 66.0,
+    "commission_per_side": 0.001
+  }
+}
