@@ -8,26 +8,28 @@ from pathlib import Path
 
 import pandas as pd
 
-from alphabarrier.evaluation import (
-    Window,
-    block_bootstrap_ci,
-    normalize_price_features,
-)
+from alphabarrier.evaluation import Window, block_bootstrap_ci
 from alphabarrier.execution import (
     COMMISSION_PER_SIDE,
     CONFIDENCE_FLOOR,
+    REBALANCE_BAND,
+    SIZING_FLOOR,
+    TREND_EMA_LADDER,
     TREND_EMA_SPAN,
+    build_scaled_positions,
     build_strategy_positions,
     continuous_backtest,
+    fee_sensitivity,
+    reference_baselines,
 )
-from alphabarrier.features import LABEL_HORIZON_BARS, get_momentum_feature_columns
-from alphabarrier.order_flow import ORDER_FLOW_COLUMNS, build_order_flow_features
+from alphabarrier.features import LABEL_HORIZON_BARS
 from alphabarrier.strategy import (
     LABEL_EMBARGO,
     LATER_EVALUATION_END,
     LATER_EVALUATION_START,
-    build_mature_outcome_features,
+    build_frame,
     evaluate,
+    yearly_breakdown,
 )
 
 
@@ -41,13 +43,7 @@ def run(
     data_dir = Path(data_dir)
     test_start = pd.Timestamp(test_start)
     test_end = pd.Timestamp(test_end)
-    price = pd.read_pickle(data_dir / "cache" / "bitstamp_h12_pt1.5_sl1.5.pkl")
-    momentum = get_momentum_feature_columns(price)
-    normalized = normalize_price_features(price, momentum)
-    order_flow = build_order_flow_features(price.index, data_dir / "market")
-    outcome_state = build_mature_outcome_features(price["target"])
-    frame = normalized.join(order_flow).join(outcome_state)
-    features = momentum + list(ORDER_FLOW_COLUMNS) + list(outcome_state.columns)
+    frame, features = build_frame(data_dir)
     window = Window(
         train_start=pd.Timestamp("2012-01-01"),
         train_end=test_start - LABEL_EMBARGO,
@@ -55,9 +51,8 @@ def run(
         test_end=test_end,
     )
     scores, correct, signals = evaluate(frame, features, [window])
-
-    positions = build_strategy_positions(signals, frame)
-
+    scaled = build_scaled_positions(signals, frame)
+    gate = build_strategy_positions(signals, frame)
     low, high = block_bootstrap_ci(correct)
     return {
         "status": "retrospective_later_evaluation",
@@ -74,10 +69,17 @@ def run(
             "decision_threshold": scores[0].threshold,
             "execution": {
                 "side_mode": "long_only",
+                "sizing": "continuous, from the log-odds offset to the fold threshold",
+                "signal_ewma_span": scores[0].signal_span,
+                "sizing_floor": SIZING_FLOOR,
+                "rebalance_band": REBALANCE_BAND,
+                "trend_filter_ema_ladder": list(TREND_EMA_LADDER),
+                "commission_per_side": COMMISSION_PER_SIDE,
+            },
+            "binary_gate_variant": {
                 "weak_calls": "hold_previous_model_state",
                 "confidence_floor": CONFIDENCE_FLOOR,
                 "trend_filter_ema_span": TREND_EMA_SPAN,
-                "commission_per_side": COMMISSION_PER_SIDE,
             },
         },
         "classification": {
@@ -87,7 +89,18 @@ def run(
             "directional_accuracy_block_bootstrap_ci95": [low, high],
             "causal_majority_baseline_accuracy": scores[0].causal_baseline_accuracy,
         },
-        "execution": continuous_backtest(positions, frame),
+        "execution_baselines": reference_baselines(
+            signals.index, frame, signals=signals
+        ),
+        "execution": continuous_backtest(scaled, frame),
+        "binary_gate_variant": continuous_backtest(gate, frame),
+        "fee_sensitivity": {
+            "execution": fee_sensitivity(scaled, frame),
+            "binary_gate_variant": fee_sensitivity(gate, frame),
+        },
+        "yearly_breakdown": yearly_breakdown(
+            {"backtesting_example": scaled, "binary_gate": gate}, frame
+        ),
     }
 
 

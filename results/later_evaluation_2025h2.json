@@ -1,0 +1,179 @@
+{
+  "status": "retrospective_later_evaluation",
+  "warning": "The model configuration was selected after extensive screening that included parts of this period. Treat this as a retrospective split, not a pristine holdout claim.",
+  "test_start": "2025-07-01 00:00:00",
+  "test_end_exclusive": "2025-12-31 00:00:00",
+  "protocol": {
+    "train_end_exclusive": "2025-06-29 00:00:00",
+    "label_horizon_bars": 12,
+    "decision_threshold": 0.525,
+    "execution": {
+      "side_mode": "long_only",
+      "sizing": "continuous, from the log-odds offset to the fold threshold",
+      "signal_ewma_span": 4.746333514394351,
+      "sizing_floor": 0.2689414213699951,
+      "rebalance_band": 0.1,
+      "trend_filter_ema_ladder": [
+        90,
+        180,
+        360,
+        720,
+        1440,
+        2160
+      ],
+      "commission_per_side": 0.001
+    },
+    "binary_gate_variant": {
+      "weak_calls": "hold_previous_model_state",
+      "confidence_floor": 0.02,
+      "trend_filter_ema_span": 720
+    }
+  },
+  "classification": {
+    "directional_samples": 957,
+    "correct": 563,
+    "directional_accuracy": 0.5882967607105538,
+    "directional_accuracy_block_bootstrap_ci95": [
+      0.5454545454545454,
+      0.6478578892371996
+    ],
+    "causal_majority_baseline_accuracy": 0.5151515151515151
+  },
+  "execution_baselines": {
+    "buy_and_hold": {
+      "total_return": -0.17790194185900732,
+      "annualized_log_return": -0.3913447629770123,
+      "sharpe": -1.008985143851709,
+      "max_drawdown": -0.34484902096731784,
+      "bar_exposure": 1.0,
+      "mean_weight": 1.0,
+      "fee_sides": 2.0,
+      "commission_per_side": 0.001
+    },
+    "trend_only": {
+      "total_return": -0.08593411252931182,
+      "annualized_log_return": -0.17950047738773517,
+      "sharpe": -0.8614607603914715,
+      "max_drawdown": -0.1982097988156336,
+      "bar_exposure": 0.7841530054644809,
+      "mean_weight": 0.533090467516697,
+      "fee_sides": 24.333333333333332,
+      "commission_per_side": 0.001
+    },
+    "trend_only_single_span": {
+      "total_return": -0.08891598831561665,
+      "annualized_log_return": -0.18602811805091496,
+      "sharpe": -0.7812933620001584,
+      "max_drawdown": -0.20755376245293233,
+      "bar_exposure": 0.5537340619307832,
+      "mean_weight": 0.5537340619307832,
+      "fee_sides": 18.0,
+      "commission_per_side": 0.001
+    },
+    "model_only_binary": {
+      "total_return": -0.024442383503500253,
+      "annualized_log_return": -0.04943571937618145,
+      "sharpe": -0.21712091706204603,
+      "max_drawdown": -0.1990296666622945,
+      "bar_exposure": 0.30510018214936246,
+      "mean_weight": 0.30510018214936246,
+      "fee_sides": 90.0,
+      "commission_per_side": 0.001
+    },
+    "model_only_scaled": {
+      "total_return": 0.010275475402812262,
+      "annualized_log_return": 0.0204227854509074,
+      "sharpe": 0.17824131909614038,
+      "max_drawdown": -0.07430292028742158,
+      "bar_exposure": 0.7595628415300546,
+      "mean_weight": 0.21590727297285678,
+      "fee_sides": 39.18411543970898,
+      "commission_per_side": 0.001
+    }
+  },
+  "execution": {
+    "total_return": 0.026038336212739432,
+    "annualized_log_return": 0.05135164108935794,
+    "sharpe": 0.7486185894791083,
+    "max_drawdown": -0.03907184089769,
+    "bar_exposure": 0.6739526411657559,
+    "mean_weight": 0.13255458355031252,
+    "fee_sides": 15.125002600449669,
+    "commission_per_side": 0.001
+  },
+  "binary_gate_variant": {
+    "total_return": 0.04874526180243621,
+    "annualized_log_return": 0.09508045663997253,
+    "sharpe": 0.6422547587076999,
+    "max_drawdown": -0.06814950136127051,
+    "bar_exposure": 0.18670309653916212,
+    "mean_weight": 0.18670309653916212,
+    "fee_sides": 54.0,
+    "commission_per_side": 0.001
+  },
+  "fee_sensitivity": {
+    "execution": [
+      {
+        "commission_per_side": 0.0,
+        "total_return": 0.04167395097746085,
+        "sharpe": 1.1887524784333818
+      },
+      {
+        "commission_per_side": 0.0005,
+        "total_return": 0.03382686881767549,
+        "sharpe": 0.9688258447971714
+      },
+      {
+        "commission_per_side": 0.001,
+        "total_return": 0.026038336212739432,
+        "sharpe": 0.7486185894791083
+      },
+      {
+        "commission_per_side": 0.002,
+        "total_return": 0.010635192205300736,
+        "sharpe": 0.30792043267651553
+      },
+      {
+        "commission_per_side": 0.004,
+        "total_return": -0.01948732720947499,
+        "sharpe": -0.5707142196484425
+      }
+    ],
+    "binary_gate_variant": [
+      {
+        "commission_per_side": 0.0,
+        "total_return": 0.10693123867764531,
+        "sharpe": 1.3711264481309027
+      },
+      {
+        "commission_per_side": 0.0005,
+        "total_return": 0.0774528122799849,
+        "sharpe": 1.0073428314001633
+      },
+      {
+        "commission_per_side": 0.001,
+        "total_return": 0.04874526180243621,
+        "sharpe": 0.6422547587076999
+      },
+      {
+        "commission_per_side": 0.002,
+        "total_return": -0.006435865823225084,
+        "sharpe": -0.08670872956338108
+      },
+      {
+        "commission_per_side": 0.004,
+        "total_return": -0.1083855776326117,
+        "sharpe": -1.5055091740517212
+      }
+    ]
+  },
+  "yearly_breakdown": [
+    {
+      "year": 2025,
+      "backtesting_example_return": 0.026038336212739422,
+      "backtesting_example_mean_weight": 0.13255458355031252,
+      "binary_gate_return": 0.04874526180243628,
+      "binary_gate_mean_weight": 0.18670309653916212
+    }
+  ]
+}

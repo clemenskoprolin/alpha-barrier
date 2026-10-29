@@ -83,26 +83,28 @@ def add_momentum_features(frame: pd.DataFrame) -> pd.DataFrame:
     return result
 
 
-def get_triple_barrier_labels(
+def _first_touch(
     prices: pd.DataFrame,
     atr_series: pd.Series,
-    *,
-    horizon_bars: int = LABEL_HORIZON_BARS,
-    pt_mult: float = PROFIT_TAKE_ATR_MULT,
-    sl_mult: float = STOP_LOSS_ATR_MULT,
-) -> pd.Series:
-    """Label the first barrier touched strictly after each signal bar.
+    horizon_bars: int,
+    pt_mult: float,
+    sl_mult: float,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Walk the barriers once, returning each entry's outcome and its bar count.
 
-    Samples where both barriers touch in one OHLC bar are left missing because
-    the intrabar ordering is unknowable. Final rows without a full horizon are
-    also left missing.
+    The outcome is ``1``/``-1`` for the barrier touched first, ``0`` when the
+    horizon expires untouched, and NaN when both barriers fall inside one OHLC
+    bar, because the intrabar ordering is unknowable. The bar count is the
+    number of bars until that touch, and is NaN whenever the outcome is not a
+    barrier touch.
     """
     if horizon_bars < 1:
         raise ValueError("horizon_bars must be at least 1")
     if pt_mult <= 0 or sl_mult <= 0:
         raise ValueError("barrier multipliers must be positive")
 
-    labels = pd.Series(np.nan, index=prices.index, dtype=float)
+    outcomes = np.full(len(prices), np.nan)
+    spans = np.full(len(prices), np.nan)
     close = prices["close"].to_numpy(dtype=float)
     high = prices["high"].to_numpy(dtype=float)
     low = prices["low"].to_numpy(dtype=float)
@@ -119,14 +121,49 @@ def get_triple_barrier_labels(
             if hit_upper and hit_lower:
                 outcome = np.nan
                 break
-            if hit_upper:
-                outcome = 1
+            if hit_upper or hit_lower:
+                outcome = 1 if hit_upper else -1
+                spans[entry] = position - entry
                 break
-            if hit_lower:
-                outcome = -1
-                break
-        labels.iloc[entry] = outcome
-    return labels
+        outcomes[entry] = outcome
+    return outcomes, spans
+
+
+def get_triple_barrier_labels(
+    prices: pd.DataFrame,
+    atr_series: pd.Series,
+    *,
+    horizon_bars: int = LABEL_HORIZON_BARS,
+    pt_mult: float = PROFIT_TAKE_ATR_MULT,
+    sl_mult: float = STOP_LOSS_ATR_MULT,
+) -> pd.Series:
+    """Label the first barrier touched strictly after each signal bar.
+
+    Samples where both barriers touch in one OHLC bar are left missing because
+    the intrabar ordering is unknowable. Final rows without a full horizon are
+    also left missing.
+    """
+    outcomes, _ = _first_touch(prices, atr_series, horizon_bars, pt_mult, sl_mult)
+    return pd.Series(outcomes, index=prices.index, dtype=float)
+
+
+def realized_barrier_span(
+    prices: pd.DataFrame,
+    atr_series: pd.Series,
+    *,
+    horizon_bars: int = LABEL_HORIZON_BARS,
+    pt_mult: float = PROFIT_TAKE_ATR_MULT,
+    sl_mult: float = STOP_LOSS_ATR_MULT,
+) -> pd.Series:
+    """Bars until each directional label actually resolves.
+
+    The label horizon is a ceiling, not the lifetime of a call: a barrier is
+    touched well before it. This is the measured lifetime, and it is what the
+    signal smoothing should be scaled to rather than the horizon constant.
+    Rows whose label is not a barrier touch are left missing.
+    """
+    _, spans = _first_touch(prices, atr_series, horizon_bars, pt_mult, sl_mult)
+    return pd.Series(spans, index=prices.index, dtype=float)
 
 
 def read_ohlcv(path: str | os.PathLike[str]) -> pd.DataFrame:

@@ -1,0 +1,417 @@
+{
+  "status": "replication_outside_the_development_window",
+  "question": "Does the execution rule chosen on 2021-2025 hold up on the history before it?",
+  "warning": "The pre-development years were inspected while the current rule was being designed, so they are evidence against the rule they falsified and only a hypothesis for the one that replaced it.",
+  "protocol": {
+    "start": "2014-01-01 00:00:00",
+    "end_exclusive": "2025-12-31 20:00:00",
+    "features": "momentum and matured-outcome state only; the order-flow block starts in 2017 and 2020 and is dropped",
+    "feature_count": 23,
+    "step_months": 3,
+    "fold_grid_offsets": [
+      0,
+      1,
+      2
+    ],
+    "windows_per_offset": [
+      48,
+      48,
+      48
+    ],
+    "commission_per_side": 0.001
+  },
+  "rules": {
+    "current": "continuous sizing, floor 0.2689, measured signal span, EMA ladder [90, 180, 360, 720, 1440, 2160]",
+    "previous_continuous": "continuous sizing, no floor, span 12, single 720-bar gate",
+    "binary_gate": "hysteretic binary state, single 720-bar gate"
+  },
+  "directional_accuracy": 0.5378494403849393,
+  "periods": [
+    {
+      "period": "pre_development",
+      "start": "2014-01-01 00:00:00",
+      "end_exclusive": "2021-07-01 00:00:00",
+      "current": {
+        "total_return": 28.097136467365587,
+        "sharpe": 1.5878138877163905,
+        "max_drawdown": -0.37158889927088135,
+        "mean_weight": 0.2674173207964236
+      },
+      "previous_continuous": {
+        "total_return": 35.291803451536374,
+        "sharpe": 1.340648574690939,
+        "max_drawdown": -0.45391885371899593,
+        "mean_weight": 0.3485824549050667
+      },
+      "binary_gate": {
+        "total_return": 389.5453689487197,
+        "sharpe": 1.6590053912765441,
+        "max_drawdown": -0.4367177181276731,
+        "mean_weight": 0.3983699487107076
+      },
+      "trend_only": {
+        "total_return": 79.35168185818672,
+        "sharpe": 1.120470020097536,
+        "max_drawdown": -0.6657225595389107,
+        "mean_weight": 0.6026226529081989
+      },
+      "trend_only_single_span": {
+        "total_return": 83.8073401192139,
+        "sharpe": 1.0356579862619488,
+        "max_drawdown": -0.7030855467750247,
+        "mean_weight": 0.6045325374016048
+      },
+      "buy_and_hold": {
+        "total_return": 48.702976436355385,
+        "sharpe": 0.6850794630546919,
+        "max_drawdown": -0.8393728308558693,
+        "mean_weight": 1.0
+      }
+    },
+    {
+      "period": "development",
+      "start": "2021-07-01 00:00:00",
+      "end_exclusive": "2025-07-01 00:00:00",
+      "current": {
+        "total_return": 1.3378689190400468,
+        "sharpe": 1.1899212676892974,
+        "max_drawdown": -0.2099590115015442,
+        "mean_weight": 0.2533632769999182
+      },
+      "previous_continuous": {
+        "total_return": 1.5872133467945406,
+        "sharpe": 1.0621577304487198,
+        "max_drawdown": -0.24263551442077366,
+        "mean_weight": 0.3243658711288775
+      },
+      "binary_gate": {
+        "total_return": 2.037353755152264,
+        "sharpe": 0.920480862685196,
+        "max_drawdown": -0.4074877412181815,
+        "mean_weight": 0.3586204274089284
+      },
+      "trend_only": {
+        "total_return": 2.2170988265401133,
+        "sharpe": 0.8355474100810132,
+        "max_drawdown": -0.38080392778881245,
+        "mean_weight": 0.5843790402311964
+      },
+      "trend_only_single_span": {
+        "total_return": 2.8121065586958935,
+        "sharpe": 0.8934512123801795,
+        "max_drawdown": -0.33955879545685114,
+        "mean_weight": 0.5808806753365275
+      },
+      "buy_and_hold": {
+        "total_return": 2.1356623237954557,
+        "sharpe": 0.5253695819246242,
+        "max_drawdown": -0.7707384036014014,
+        "mean_weight": 1.0
+      }
+    },
+    {
+      "period": "later",
+      "start": "2025-07-01 00:00:00",
+      "end_exclusive": "2025-12-31 20:00:00",
+      "current": {
+        "total_return": -0.0057579124255235925,
+        "sharpe": -0.14845236509971194,
+        "max_drawdown": -0.07570062201033263,
+        "mean_weight": 0.13782692564040036
+      },
+      "previous_continuous": {
+        "total_return": -0.0019070226504900312,
+        "sharpe": -0.035471586435337835,
+        "max_drawdown": -0.07093472725797882,
+        "mean_weight": 0.23317694894262167
+      },
+      "binary_gate": {
+        "total_return": -0.0011938159339430026,
+        "sharpe": -0.02236322988562962,
+        "max_drawdown": -0.12081398523396925,
+        "mean_weight": 0.16498625114573784
+      },
+      "trend_only": {
+        "total_return": -0.08391053327533338,
+        "sharpe": -0.8429989618576587,
+        "max_drawdown": -0.19643477795619702,
+        "mean_weight": 0.536205316223648
+      },
+      "trend_only_single_span": {
+        "total_return": -0.08891598831561665,
+        "sharpe": -0.783796495479027,
+        "max_drawdown": -0.20755376245293233,
+        "mean_weight": 0.5572868927589367
+      },
+      "buy_and_hold": {
+        "total_return": -0.18922856137757194,
+        "sharpe": -1.0859097719269466,
+        "max_drawdown": -0.34484902096731784,
+        "mean_weight": 1.0
+      }
+    },
+    {
+      "period": "all",
+      "start": "2014-01-01 00:00:00",
+      "end_exclusive": "2025-12-31 20:00:00",
+      "current": {
+        "total_return": 66.91121177791068,
+        "sharpe": 1.4226679835189957,
+        "max_drawdown": -0.37158889927088135,
+        "mean_weight": 0.2576286964331764
+      },
+      "previous_continuous": {
+        "total_return": 92.49034854342987,
+        "sharpe": 1.2131619999556962,
+        "max_drawdown": -0.45391885371899593,
+        "mean_weight": 0.33577341662173077
+      },
+      "binary_gate": {
+        "total_return": 1180.417731664548,
+        "sharpe": 1.408443519713224,
+        "max_drawdown": -0.45854682794684404,
+        "mean_weight": 0.37526314255508536
+      },
+      "trend_only": {
+        "total_return": 236.36258540405763,
+        "sharpe": 0.9869568713097326,
+        "max_drawdown": -0.6657225595389107,
+        "mean_weight": 0.5937225071802241
+      },
+      "trend_only_single_span": {
+        "total_return": 294.13848945372746,
+        "sharpe": 0.940669512833526,
+        "max_drawdown": -0.7030855467750247,
+        "mean_weight": 0.5946186658121534
+      },
+      "buy_and_hold": {
+        "total_return": 125.8732157116096,
+        "sharpe": 0.5906131890593299,
+        "max_drawdown": -0.8393728308558693,
+        "mean_weight": 1.0
+      }
+    }
+  ],
+  "yearly_sharpe": {
+    "note": "Sharpe within each calendar year, averaged over the fold-grid shifts. The paired rows count years rather than pooling them.",
+    "years": [
+      {
+        "year": 2014,
+        "current": -0.221918991678429,
+        "previous_continuous": -0.9137121283507592,
+        "binary_gate": -0.10999100279965239,
+        "trend_only": -1.0001214760121155,
+        "trend_only_single_span": -1.2806948478879758,
+        "buy_and_hold": -1.1371635336638481
+      },
+      {
+        "year": 2015,
+        "current": 1.6826359593157232,
+        "previous_continuous": 1.2497322997492775,
+        "binary_gate": 1.4674809354254894,
+        "trend_only": 1.0668852346038118,
+        "trend_only_single_span": 1.0784986478322465,
+        "buy_and_hold": 0.43830627559220153
+      },
+      {
+        "year": 2016,
+        "current": 2.1224818148534568,
+        "previous_continuous": 1.5492332706082124,
+        "binary_gate": 2.2502758120680775,
+        "trend_only": 1.9111208615915152,
+        "trend_only_single_span": 1.2546347410603174,
+        "buy_and_hold": 1.8517336835964102
+      },
+      {
+        "year": 2017,
+        "current": 2.9597423843747728,
+        "previous_continuous": 2.722842710945983,
+        "binary_gate": 2.7994127036980494,
+        "trend_only": 2.7191000846948135,
+        "trend_only_single_span": 2.4583843836016195,
+        "buy_and_hold": 2.725037774772987
+      },
+      {
+        "year": 2018,
+        "current": -1.1787801594430034,
+        "previous_continuous": -1.6241920819081752,
+        "binary_gate": -1.1260526550545396,
+        "trend_only": -1.7355901054111893,
+        "trend_only_single_span": -1.920031111236127,
+        "buy_and_hold": -1.4886789380239698
+      },
+      {
+        "year": 2019,
+        "current": 1.7299448275249933,
+        "previous_continuous": 1.6032200068532099,
+        "binary_gate": 2.0505976087985065,
+        "trend_only": 1.0955450478891555,
+        "trend_only_single_span": 1.3211983647045957,
+        "buy_and_hold": 0.9913806552848939
+      },
+      {
+        "year": 2020,
+        "current": 2.6969378629721272,
+        "previous_continuous": 2.668499322716739,
+        "binary_gate": 2.910690210854741,
+        "trend_only": 2.6313217744395763,
+        "trend_only_single_span": 2.422758725955811,
+        "buy_and_hold": 2.045149873063656
+      },
+      {
+        "year": 2021,
+        "current": 0.8995882914510999,
+        "previous_continuous": 0.7766797387878593,
+        "binary_gate": 1.0617077015049594,
+        "trend_only": 0.530592302583467,
+        "trend_only_single_span": 0.7392764780547446,
+        "buy_and_hold": 0.5320861693517986
+      },
+      {
+        "year": 2022,
+        "current": -1.6021464090603592,
+        "previous_continuous": -0.0011543897378117037,
+        "binary_gate": 0.4826934087344576,
+        "trend_only": -1.314467657006318,
+        "trend_only_single_span": -0.083950336231518,
+        "buy_and_hold": -1.685999142796127
+      },
+      {
+        "year": 2023,
+        "current": 1.8280842326628866,
+        "previous_continuous": 1.774924046638527,
+        "binary_gate": 1.449319019724415,
+        "trend_only": 1.6734764241591022,
+        "trend_only_single_span": 1.574749601742263,
+        "buy_and_hold": 2.238754554186708
+      },
+      {
+        "year": 2024,
+        "current": 1.678588820183353,
+        "previous_continuous": 1.4128494155795277,
+        "binary_gate": 1.0305910338246622,
+        "trend_only": 1.280930328697258,
+        "trend_only_single_span": 1.1910933381640911,
+        "buy_and_hold": 1.515851269033515
+      },
+      {
+        "year": 2025,
+        "current": 0.7457771457509317,
+        "previous_continuous": 0.6338766027259144,
+        "binary_gate": 0.6998471753628345,
+        "trend_only": -0.30970260919994713,
+        "trend_only_single_span": 0.1087368729929055,
+        "buy_and_hold": -0.16546932136823825
+      }
+    ],
+    "paired": [
+      {
+        "comparison": "previous_continuous minus binary_gate",
+        "years": 12,
+        "years_won": 2,
+        "mean_gap": -0.2594810947944581,
+        "sd_gap": 0.364508180193033,
+        "t_statistic": -2.4659772493972016,
+        "pre_development_years": 7,
+        "pre_development_years_won": 0,
+        "pre_development_mean_gap": -0.4266843160537407
+      },
+      {
+        "comparison": "current minus binary_gate",
+        "years": 12,
+        "years_won": 5,
+        "mean_gap": -0.13546968110287064,
+        "sd_gap": 0.672190048082451,
+        "t_statistic": -0.6981369962994284,
+        "pre_development_years": 7,
+        "pre_development_years_won": 2,
+        "pre_development_mean_gap": -0.0644814164387187
+      },
+      {
+        "comparison": "current minus previous_continuous",
+        "years": 12,
+        "years_won": 11,
+        "mean_gap": 0.12401141369158741,
+        "sd_gap": 0.5835377638471191,
+        "t_statistic": 0.7361788132311722,
+        "pre_development_years": 7,
+        "pre_development_years_won": 7,
+        "pre_development_mean_gap": 0.362202899615022
+      }
+    ]
+  },
+  "trend_off_sleeves": {
+    "note": "Sharpe by period, averaged over the fold-grid shifts. Read against the fold-grid noise floor, not against zero.",
+    "variants": {
+      "current": {
+        "pre_development": 1.5878138877163905,
+        "development": 1.1899212676892974,
+        "later": -0.14845236509971194,
+        "all": 1.4226679835189957
+      },
+      "short_sleeve_0.25x": {
+        "pre_development": 1.6117897033597588,
+        "development": 1.1240389719270953,
+        "later": 0.3163260856679733,
+        "all": 1.430619014688765
+      },
+      "short_sleeve_0.5x": {
+        "pre_development": 1.512429851894851,
+        "development": 0.9272544843396914,
+        "later": 0.13374945923439327,
+        "all": 1.3070242317314487
+      },
+      "short_sleeve_1x": {
+        "pre_development": 1.2671670204817942,
+        "development": 0.5712501315305131,
+        "later": -0.3875850863432846,
+        "all": 1.0230241867198289
+      },
+      "off_trend_participation_0.15x": {
+        "pre_development": 1.6270716232401636,
+        "development": 1.1687035971748452,
+        "later": -0.1747173102031144,
+        "all": 1.445359023205856
+      },
+      "off_trend_participation_0.5x": {
+        "pre_development": 1.6273254519644826,
+        "development": 1.0103063556855159,
+        "later": -0.16035575076635344,
+        "all": 1.4061634208587102
+      }
+    },
+    "edge": {
+      "note": "Mean next-bar return in basis points, by gate and conviction.",
+      "single_span_gate_flat_share": 0.4036142286475176,
+      "ladder_gate_flat_share": 0.18147232261746243,
+      "single_span_gate": {
+        "flat_bars": 10609,
+        "up_call_mean_bp": 6.494674529522385,
+        "up_call_bars": 2299,
+        "down_call_mean_bp": -1.58199254342036,
+        "down_call_bars": 8310,
+        "size_quantile_mean_bp": [
+          -2.4875465979530613,
+          -5.62710261434395,
+          3.3375600414402666,
+          -1.129241209486997,
+          6.749043041790588
+        ]
+      },
+      "ladder_gate": {
+        "flat_bars": 4770,
+        "up_call_mean_bp": 8.860128838845025,
+        "up_call_bars": 469,
+        "down_call_mean_bp": 0.253728285096872,
+        "down_call_bars": 4301,
+        "size_quantile_mean_bp": [
+          -0.16904783344289015,
+          3.008432952815971,
+          -6.556677362166631,
+          0.710948453886911,
+          8.506014417439095
+        ]
+      }
+    }
+  }
+}

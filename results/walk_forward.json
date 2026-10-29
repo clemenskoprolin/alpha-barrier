@@ -1,12 +1,12 @@
 {
   "status": "development_result",
   "claim_warning": "Not a holdout result and not evidence of a deployable trading strategy.",
-  "protocol": "six-month purged walk-forward; forced direction on every bar; prior purged 12-month threshold calibration; final label-horizon embargo",
+  "protocol": "3-month purged walk-forward; forced direction on every bar; prior purged 12-month threshold calibration; final label-horizon embargo",
   "development_start": "2021-07-01 00:00:00",
   "development_boundary": "2025-07-01 00:00:00",
   "development_signal_end_exclusive": "2025-06-29 00:00:00",
   "later_evaluation_end_exclusive": "2026-07-01 00:00:00",
-  "screened_configurations_lower_bound": 270,
+  "screened_configurations_lower_bound": 320,
   "model": {
     "type": "balanced_logistic_regression",
     "C": 0.5,
@@ -33,112 +33,762 @@
   },
   "backtesting_example": {
     "side_mode": "long_only",
+    "sizing": "continuous, from the log-odds offset to the fold threshold",
+    "signal_ewma_span": "per fold, the calibration window's measured barrier span",
+    "sizing_floor": 0.2689414213699951,
+    "rebalance_band": 0.1,
+    "trend_filter_ema_ladder": [
+      90,
+      180,
+      360,
+      720,
+      1440,
+      2160
+    ],
+    "commission_per_side": 0.001,
+    "fee_sensitivity_grid": [
+      0.0,
+      0.0005,
+      0.001,
+      0.002,
+      0.004
+    ]
+  },
+  "binary_gate_variant": {
+    "side_mode": "long_only",
     "weak_calls": "hold_previous_model_state",
     "confidence_floor": 0.02,
     "trend_filter_ema_span": 720,
     "commission_per_side": 0.001
   },
   "result": {
-    "windows": 8,
+    "windows": 16,
     "call_coverage": 1.0,
     "directional_samples": 7228,
-    "correct": 3861,
-    "directional_accuracy": 0.5341726618705036,
+    "correct": 3835,
+    "directional_accuracy": 0.5305755395683454,
     "directional_accuracy_block_bootstrap_ci95": [
-      0.5131398727172108,
-      0.5557553956834532
+      0.5105146651909241,
+      0.5509131156613171
     ],
-    "causal_majority_baseline_accuracy": 0.48353624792473715,
-    "window_rate_above_50_percent": 1.0,
+    "causal_majority_baseline_accuracy": 0.48741007194244607,
+    "window_rate_above_50_percent": 0.8125,
+    "measured_signal_span": {
+      "note": "Mean bars each fold's purged calibration labels took to touch a barrier. The signal is smoothed over this, not over the 12-bar horizon, which is only its ceiling.",
+      "mean": 4.92729056356184,
+      "min": 4.715128755364807,
+      "max": 5.149213239283776,
+      "label_horizon_bars": 12
+    },
+    "execution_baselines": {
+      "buy_and_hold": {
+        "total_return": 2.1362720418110124,
+        "annualized_log_return": 0.2861831219761834,
+        "sharpe": 0.5258924288308985,
+        "max_drawdown": -0.7707384036014016,
+        "bar_exposure": 1.0,
+        "mean_weight": 1.0,
+        "fee_sides": 2.0,
+        "commission_per_side": 0.001
+      },
+      "trend_only": {
+        "total_return": 2.217724379584355,
+        "annualized_log_return": 0.2926025291103069,
+        "sharpe": 0.8365417241826366,
+        "max_drawdown": -0.38080392778881245,
+        "bar_exposure": 0.8053461274845785,
+        "mean_weight": 0.5838093062219176,
+        "fee_sides": 194.0,
+        "commission_per_side": 0.001
+      },
+      "trend_only_single_span": {
+        "total_return": 2.8128478088070477,
+        "annualized_log_return": 0.3350910324200591,
+        "sharpe": 0.8944568465240598,
+        "max_drawdown": -0.3395587954568512,
+        "bar_exposure": 0.5803061457619374,
+        "mean_weight": 0.5803061457619374,
+        "fee_sides": 72.0,
+        "commission_per_side": 0.001
+      },
+      "model_only_binary": {
+        "total_return": 1.2918055708239446,
+        "annualized_log_return": 0.2076429264237132,
+        "sharpe": 0.6499590584232866,
+        "max_drawdown": -0.5285533546837955,
+        "bar_exposure": 0.4209504226639251,
+        "mean_weight": 0.4209504226639251,
+        "fee_sides": 1052.0,
+        "commission_per_side": 0.001
+      },
+      "model_only_scaled": {
+        "total_return": 1.303159967054805,
+        "annualized_log_return": 0.20888028967363842,
+        "sharpe": 1.2093959246832378,
+        "max_drawdown": -0.2615648262662441,
+        "bar_exposure": 0.8819968014621887,
+        "mean_weight": 0.2887659949220273,
+        "fee_sides": 343.2498426351686,
+        "commission_per_side": 0.001
+      }
+    },
     "backtesting_example": {
-      "total_return": 1.5020415387431183,
-      "annualized_log_return": 0.22961727652795544,
-      "sharpe": 0.9057649857382899,
-      "max_drawdown": -0.25018521686773665,
-      "bar_exposure": 0.297464016449623,
-      "fee_sides": 664.0,
+      "total_return": 1.1701368189809997,
+      "annualized_log_return": 0.1939852345362727,
+      "sharpe": 1.483646798726504,
+      "max_drawdown": -0.12304311381218247,
+      "bar_exposure": 0.8548092300662554,
+      "mean_weight": 0.19827510467584825,
+      "fee_sides": 136.64842459469145,
       "commission_per_side": 0.001
     },
+    "binary_gate_variant": {
+      "total_return": 1.516064366368505,
+      "annualized_log_return": 0.23101657849777626,
+      "sharpe": 0.9106495695759014,
+      "max_drawdown": -0.3272179068151658,
+      "bar_exposure": 0.282156728352753,
+      "mean_weight": 0.282156728352753,
+      "fee_sides": 640.0,
+      "commission_per_side": 0.001
+    },
+    "fee_sensitivity": {
+      "backtesting_example": [
+        {
+          "commission_per_side": 0.0,
+          "total_return": 1.487860425862452,
+          "sharpe": 1.7452451937807987
+        },
+        {
+          "commission_per_side": 0.0005,
+          "total_return": 1.3235801783141938,
+          "sharpe": 1.6145059045290124
+        },
+        {
+          "commission_per_side": 0.001,
+          "total_return": 1.1701368189809997,
+          "sharpe": 1.483646798726504
+        },
+        {
+          "commission_per_side": 0.002,
+          "total_return": 0.8929512182280857,
+          "sharpe": 1.2216733271820213
+        },
+        {
+          "commission_per_side": 0.004,
+          "total_return": 0.44018284795298257,
+          "sharpe": 0.6974362684613702
+        }
+      ],
+      "binary_gate_variant": [
+        {
+          "commission_per_side": 0.0,
+          "total_return": 3.772760660897033,
+          "sharpe": 1.5445433738750252
+        },
+        {
+          "commission_per_side": 0.0005,
+          "total_return": 2.465616255120184,
+          "sharpe": 1.2278227897962186
+        },
+        {
+          "commission_per_side": 0.001,
+          "total_return": 1.516064366368505,
+          "sharpe": 0.9106495695759014
+        },
+        {
+          "commission_per_side": 0.002,
+          "total_return": 0.32554781299818325,
+          "sharpe": 0.2771438580501113
+        },
+        {
+          "commission_per_side": 0.004,
+          "total_return": -0.6327979114345269,
+          "sharpe": -0.9715781347548172
+        }
+      ],
+      "trend_only": [
+        {
+          "commission_per_side": 0.0,
+          "total_return": 2.9068527894078002,
+          "sharpe": 0.9756330309588499
+        },
+        {
+          "commission_per_side": 0.0005,
+          "total_return": 2.545604270913643,
+          "sharpe": 0.9060935414894609
+        },
+        {
+          "commission_per_side": 0.001,
+          "total_return": 2.217724379584355,
+          "sharpe": 0.8365417241826366
+        },
+        {
+          "commission_per_side": 0.002,
+          "total_return": 1.6500379177117428,
+          "sharpe": 0.6974175039197811
+        },
+        {
+          "commission_per_side": 0.004,
+          "total_return": 0.7972268603960249,
+          "sharpe": 0.4192014673714296
+        }
+      ]
+    },
+    "execution_sensitivity": [
+      {
+        "knob": "signal_ewma_span",
+        "value": 1.0,
+        "total_return": 0.8901237159367135,
+        "sharpe": 1.131352985145991,
+        "mean_weight": 0.20080499804183743,
+        "fee_sides": 425.9312224362979
+      },
+      {
+        "knob": "signal_ewma_span",
+        "value": 6.0,
+        "total_return": 1.1365114467949384,
+        "sharpe": 1.4367910392436176,
+        "mean_weight": 0.20442308909022727,
+        "fee_sides": 114.35074040402365
+      },
+      {
+        "knob": "signal_ewma_span",
+        "value": 12.0,
+        "total_return": 0.9306886711162701,
+        "sharpe": 1.2775346472698363,
+        "mean_weight": 0.20051815202619375,
+        "fee_sides": 73.55012324481535
+      },
+      {
+        "knob": "signal_ewma_span",
+        "value": 24.0,
+        "total_return": 0.7827184873415451,
+        "sharpe": 1.1612092968663044,
+        "mean_weight": 0.1888220292179231,
+        "fee_sides": 50.04797882093639
+      },
+      {
+        "knob": "signal_ewma_span",
+        "value": 48.0,
+        "total_return": 0.6323807079438684,
+        "sharpe": 1.0181114149614545,
+        "mean_weight": 0.18784404256562937,
+        "fee_sides": 35.63443103788769
+      },
+      {
+        "knob": "rebalance_band",
+        "value": 0.0,
+        "total_return": 1.0281341446937224,
+        "sharpe": 1.3402887818864828,
+        "mean_weight": 0.19030018476353183,
+        "fee_sides": 243.2718496364828
+      },
+      {
+        "knob": "rebalance_band",
+        "value": 0.05,
+        "total_return": 1.2079565535284713,
+        "sharpe": 1.498946828120802,
+        "mean_weight": 0.192935706976883,
+        "fee_sides": 187.99913449134135
+      },
+      {
+        "knob": "rebalance_band",
+        "value": 0.1,
+        "total_return": 1.1701368189809997,
+        "sharpe": 1.483646798726504,
+        "mean_weight": 0.19827510467584825,
+        "fee_sides": 136.64842459469145
+      },
+      {
+        "knob": "rebalance_band",
+        "value": 0.2,
+        "total_return": 0.9877663286898613,
+        "sharpe": 1.3083722279941334,
+        "mean_weight": 0.21580561979979926,
+        "fee_sides": 77.50743377742984
+      },
+      {
+        "knob": "rebalance_band",
+        "value": 0.3,
+        "total_return": 1.132238504820374,
+        "sharpe": 1.368730586224108,
+        "mean_weight": 0.21153866267640165,
+        "fee_sides": 52.605576656716906
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.0,
+        "total_return": 1.3978844917883708,
+        "sharpe": 1.205971810649387,
+        "mean_weight": 0.2960992896090457,
+        "fee_sides": 125.56574775544884
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.1,
+        "total_return": 1.3324953590047923,
+        "sharpe": 1.29466192324013,
+        "mean_weight": 0.2632346456319709,
+        "fee_sides": 129.3642175010658
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.2,
+        "total_return": 1.2348597592328563,
+        "sharpe": 1.3768069532801075,
+        "mean_weight": 0.22787838599800678,
+        "fee_sides": 134.59064279216517
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.3,
+        "total_return": 1.1647309776086598,
+        "sharpe": 1.5390033386015753,
+        "mean_weight": 0.18414349712134,
+        "fee_sides": 136.99125897488068
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.4,
+        "total_return": 0.9860171515500742,
+        "sharpe": 1.6959394775646868,
+        "mean_weight": 0.13081849945127885,
+        "fee_sides": 129.98211722582306
+      },
+      {
+        "knob": "sizing_floor",
+        "value": 0.5,
+        "total_return": 0.6241580247550942,
+        "sharpe": 1.5070924261824765,
+        "mean_weight": 0.0914761722829823,
+        "fee_sides": 104.5396828314311
+      }
+    ],
+    "trend_span_sensitivity": {
+      "note": "Single-span gates, then the ladder the strategy actually uses. The spread of the single-span column is the cost of choosing one lookback; the spread of the uplift column is what the model contributes regardless of that choice.",
+      "single_span": [
+        {
+          "trend_ema_span": 90,
+          "sharpe": 1.2116311147674348,
+          "trend_only_sharpe": 0.8595140766475876,
+          "uplift": 0.3521170381198472,
+          "total_return": 0.948628683056828,
+          "max_drawdown": -0.17816765799525847,
+          "fee_sides": 223.77242726440255
+        },
+        {
+          "trend_ema_span": 180,
+          "sharpe": 1.485042406267498,
+          "trend_only_sharpe": 1.0288236689128203,
+          "uplift": 0.4562187373546778,
+          "total_return": 1.2450396585175265,
+          "max_drawdown": -0.1448081561007465,
+          "fee_sides": 186.4467010014531
+        },
+        {
+          "trend_ema_span": 270,
+          "sharpe": 1.6094236498040573,
+          "trend_only_sharpe": 0.8271861597511551,
+          "uplift": 0.7822374900529022,
+          "total_return": 1.3832901373757136,
+          "max_drawdown": -0.1360719257988502,
+          "fee_sides": 165.62051480961352
+        },
+        {
+          "trend_ema_span": 360,
+          "sharpe": 1.4309881064295304,
+          "trend_only_sharpe": 0.6427034286573049,
+          "uplift": 0.7882846777722256,
+          "total_return": 1.1520262971939665,
+          "max_drawdown": -0.18584066672455768,
+          "fee_sides": 176.45434432555075
+        },
+        {
+          "trend_ema_span": 540,
+          "sharpe": 1.489098901498154,
+          "trend_only_sharpe": 0.8635459226427621,
+          "uplift": 0.6255529788553919,
+          "total_return": 1.221904729324649,
+          "max_drawdown": -0.1337505955217162,
+          "fee_sides": 153.1384251590678
+        },
+        {
+          "trend_ema_span": 720,
+          "sharpe": 1.4221154918575516,
+          "trend_only_sharpe": 0.8944568465240598,
+          "uplift": 0.5276586453334918,
+          "total_return": 1.1348163565304419,
+          "max_drawdown": -0.16193304629996075,
+          "fee_sides": 144.4605076032353
+        },
+        {
+          "trend_ema_span": 900,
+          "sharpe": 1.2274651112840678,
+          "trend_only_sharpe": 0.741599351909343,
+          "uplift": 0.48586575937472476,
+          "total_return": 0.933989316266514,
+          "max_drawdown": -0.16499361923644917,
+          "fee_sides": 155.14095988986358
+        },
+        {
+          "trend_ema_span": 1080,
+          "sharpe": 1.0176428289523833,
+          "trend_only_sharpe": 0.45120830747115936,
+          "uplift": 0.566434521481224,
+          "total_return": 0.7549869080019975,
+          "max_drawdown": -0.1647938354849755,
+          "fee_sides": 166.97281636864997
+        },
+        {
+          "trend_ema_span": 1200,
+          "sharpe": 0.8975432770394165,
+          "trend_only_sharpe": 0.4154975983055272,
+          "uplift": 0.4820456787338893,
+          "total_return": 0.6467433034920931,
+          "max_drawdown": -0.1741881385313121,
+          "fee_sides": 174.17394005665923
+        },
+        {
+          "trend_ema_span": 1440,
+          "sharpe": 1.0215701671742805,
+          "trend_only_sharpe": 0.3973411068418452,
+          "uplift": 0.6242290603324353,
+          "total_return": 0.8002094091593313,
+          "max_drawdown": -0.19324708705121563,
+          "fee_sides": 173.58011570389286
+        },
+        {
+          "trend_ema_span": 1800,
+          "sharpe": 1.1951837810225583,
+          "trend_only_sharpe": 0.7220883213710817,
+          "uplift": 0.4730954596514766,
+          "total_return": 1.0225929424187186,
+          "max_drawdown": -0.13383866227820695,
+          "fee_sides": 155.89831457566086
+        },
+        {
+          "trend_ema_span": 2160,
+          "sharpe": 1.1950601933449478,
+          "trend_only_sharpe": 0.5922972719539132,
+          "uplift": 0.6027629213910346,
+          "total_return": 1.026381450038146,
+          "max_drawdown": -0.1320547059183076,
+          "fee_sides": 161.93278574888853
+        }
+      ],
+      "single_span_sharpe_mean": 1.2668970857868234,
+      "single_span_sharpe_sd": 0.22134954964186757,
+      "single_span_uplift_mean": 0.56387524737111,
+      "single_span_uplift_sd": 0.12995552450156586,
+      "ladder": {
+        "spans": [
+          90,
+          180,
+          360,
+          720,
+          1440,
+          2160
+        ],
+        "sharpe": 1.483646798726504,
+        "trend_only_sharpe": 0.8365417241826366,
+        "uplift": 0.6471050745438675
+      }
+    },
+    "fold_grid_offset_dispersion": {
+      "note": "Spread across arbitrary calendar shifts of the fold grid. Read every reported difference against it.",
+      "offsets": [
+        {
+          "month_offset": 0,
+          "windows": 16,
+          "directional_accuracy": 0.5305755395683454,
+          "scaled_sharpe": 1.483646798726504,
+          "binary_gate_sharpe": 0.9106495695759014,
+          "trend_only_sharpe": 0.8365417241826366
+        },
+        {
+          "month_offset": 1,
+          "windows": 16,
+          "directional_accuracy": 0.5310686482661005,
+          "scaled_sharpe": 1.4292628460019419,
+          "binary_gate_sharpe": 0.8222413452107074,
+          "trend_only_sharpe": 0.7719866317982024
+        },
+        {
+          "month_offset": 2,
+          "windows": 16,
+          "directional_accuracy": 0.5327631197448536,
+          "scaled_sharpe": 1.363987159696067,
+          "binary_gate_sharpe": 0.9546729884026571,
+          "trend_only_sharpe": 0.7463150756510031
+        }
+      ],
+      "scaled_sharpe_mean": 1.4256322681415041,
+      "scaled_sharpe_sd": 0.05991237872864124,
+      "binary_gate_sharpe_mean": 0.895854634396422,
+      "binary_gate_sharpe_sd": 0.06744407023492668,
+      "trend_only_sharpe_mean": 0.7849478105439474,
+      "trend_only_sharpe_sd": 0.04648877436728243,
+      "scaled_minus_trend_mean": 0.640684457597557,
+      "binary_gate_minus_trend_mean": 0.11090682385247459
+    },
+    "deflated_sharpe": {
+      "deflated_sharpe_ratio": 0.9758057551817448,
+      "expected_max_sharpe": 0.010824824463897837,
+      "observed_sharpe": 0.03169092965591276,
+      "trials": 320,
+      "samples": 8754,
+      "variance_source": "per-bar variance of the execution sensitivity sweep; screened configurations vary more than one knob at a time, so this understates the true trial variance and the deflated value is optimistic"
+    },
+    "yearly_breakdown": [
+      {
+        "year": 2021,
+        "buy_and_hold_return": 0.37023842998983936,
+        "buy_and_hold_mean_weight": 1.0,
+        "trend_only_return": 0.26802639034074865,
+        "trend_only_mean_weight": 0.671346618357488,
+        "binary_gate_return": -0.054647447034085424,
+        "binary_gate_mean_weight": 0.2608695652173913,
+        "backtesting_example_return": 0.08865658873374693,
+        "backtesting_example_mean_weight": 0.1977725536041016
+      },
+      {
+        "year": 2022,
+        "buy_and_hold_return": -0.6470725951293369,
+        "buy_and_hold_mean_weight": 1.0,
+        "trend_only_return": -0.16888935294670945,
+        "trend_only_mean_weight": 0.1475646879756469,
+        "binary_gate_return": -0.013619091747256036,
+        "binary_gate_mean_weight": 0.01643835616438356,
+        "backtesting_example_return": -0.02557480620169317,
+        "backtesting_example_mean_weight": 0.058781937587210994
+      },
+      {
+        "year": 2023,
+        "buy_and_hold_return": 1.562341120929664,
+        "buy_and_hold_mean_weight": 1.0,
+        "trend_only_return": 0.7732372401007581,
+        "trend_only_mean_weight": 0.7052511415525115,
+        "binary_gate_return": 0.8068285489717548,
+        "binary_gate_mean_weight": 0.4191780821917808,
+        "backtesting_example_return": 0.40135251356299895,
+        "backtesting_example_mean_weight": 0.2561318715727768
+      },
+      {
+        "year": 2024,
+        "buy_and_hold_return": 1.2116215897011946,
+        "buy_and_hold_mean_weight": 1.0,
+        "trend_only_return": 0.7184380237175532,
+        "trend_only_mean_weight": 0.7931845780206437,
+        "binary_gate_return": 0.4902432960079192,
+        "binary_gate_mean_weight": 0.36885245901639346,
+        "backtesting_example_return": 0.37567416537454185,
+        "backtesting_example_mean_weight": 0.24646004736584826
+      },
+      {
+        "year": 2025,
+        "buy_and_hold_return": 0.14441734932552883,
+        "buy_and_hold_mean_weight": 1.0,
+        "trend_only_return": 0.001984459289823199,
+        "trend_only_mean_weight": 0.707635009310987,
+        "binary_gate_return": 0.002095627467390659,
+        "binary_gate_mean_weight": 0.3891992551210428,
+        "backtesting_example_return": 0.06116942305121128,
+        "backtesting_example_mean_weight": 0.26673357642241324
+      }
+    ],
     "folds": [
       {
         "test_start": "2021-07-01 00:00:00",
         "threshold": 0.505,
+        "logit_scale": 1.654838772104147,
+        "signal_span": 5.149213239283776,
         "calibration_directional_rows": 1843,
         "calibration_accuracy": 0.47205642973412915,
-        "directional_rows": 939,
-        "correct": 475,
-        "accuracy": 0.5058572949946751,
-        "causal_baseline_accuracy": 0.5133120340788072
+        "directional_rows": 476,
+        "correct": 246,
+        "accuracy": 0.5168067226890757,
+        "causal_baseline_accuracy": 0.5189075630252101
+      },
+      {
+        "test_start": "2021-10-01 00:00:00",
+        "threshold": 0.53,
+        "logit_scale": 2.3365619588968207,
+        "signal_span": 5.1419457735247205,
+        "calibration_directional_rows": 1881,
+        "calibration_accuracy": 0.45933014354066987,
+        "directional_rows": 463,
+        "correct": 232,
+        "accuracy": 0.5010799136069114,
+        "causal_baseline_accuracy": 0.5075593952483801
       },
       {
         "test_start": "2022-01-01 00:00:00",
         "threshold": 0.525,
+        "logit_scale": 0.5362965612671479,
+        "signal_span": 5.135875402792696,
         "calibration_directional_rows": 1862,
         "calibration_accuracy": 0.5091299677765844,
-        "directional_rows": 905,
-        "correct": 484,
-        "accuracy": 0.5348066298342542,
-        "causal_baseline_accuracy": 0.4121546961325967
+        "directional_rows": 442,
+        "correct": 231,
+        "accuracy": 0.5226244343891403,
+        "causal_baseline_accuracy": 0.4683257918552036
+      },
+      {
+        "test_start": "2022-04-01 00:00:00",
+        "threshold": 0.53,
+        "logit_scale": 0.3593529322799009,
+        "signal_span": 5.111838516093835,
+        "calibration_directional_rows": 1833,
+        "calibration_accuracy": 0.5128205128205128,
+        "directional_rows": 463,
+        "correct": 256,
+        "accuracy": 0.5529157667386609,
+        "causal_baseline_accuracy": 0.35853131749460043
       },
       {
         "test_start": "2022-07-01 00:00:00",
         "threshold": 0.505,
+        "logit_scale": 0.3515543244527189,
+        "signal_span": 5.057314410480349,
         "calibration_directional_rows": 1832,
         "calibration_accuracy": 0.5207423580786026,
-        "directional_rows": 848,
-        "correct": 442,
-        "accuracy": 0.5212264150943396,
-        "causal_baseline_accuracy": 0.4705188679245283
+        "directional_rows": 435,
+        "correct": 216,
+        "accuracy": 0.496551724137931,
+        "causal_baseline_accuracy": 0.5333333333333333
+      },
+      {
+        "test_start": "2022-10-01 00:00:00",
+        "threshold": 0.525,
+        "logit_scale": 0.3399355599778291,
+        "signal_span": 5.056824512534819,
+        "calibration_directional_rows": 1795,
+        "calibration_accuracy": 0.5264623955431755,
+        "directional_rows": 413,
+        "correct": 210,
+        "accuracy": 0.5084745762711864,
+        "causal_baseline_accuracy": 0.4043583535108959
       },
       {
         "test_start": "2023-01-01 00:00:00",
         "threshold": 0.515,
+        "logit_scale": 0.33165427072940573,
+        "signal_span": 5.0234957020057305,
         "calibration_directional_rows": 1745,
         "calibration_accuracy": 0.5260744985673352,
-        "directional_rows": 921,
-        "correct": 488,
-        "accuracy": 0.5298588490770901,
-        "causal_baseline_accuracy": 0.44842562432138977
+        "directional_rows": 465,
+        "correct": 241,
+        "accuracy": 0.5182795698924731,
+        "causal_baseline_accuracy": 0.42795698924731185
+      },
+      {
+        "test_start": "2023-04-01 00:00:00",
+        "threshold": 0.53,
+        "logit_scale": 0.30855299767822686,
+        "signal_span": 4.9355203619909505,
+        "calibration_directional_rows": 1768,
+        "calibration_accuracy": 0.5328054298642534,
+        "directional_rows": 456,
+        "correct": 256,
+        "accuracy": 0.5614035087719298,
+        "causal_baseline_accuracy": 0.5307017543859649
       },
       {
         "test_start": "2023-07-01 00:00:00",
         "threshold": 0.5,
+        "logit_scale": 0.29458112328570846,
+        "signal_span": 4.8642045454545455,
         "calibration_directional_rows": 1760,
         "calibration_accuracy": 0.5301136363636364,
-        "directional_rows": 867,
-        "correct": 498,
-        "accuracy": 0.5743944636678201,
-        "causal_baseline_accuracy": 0.5271049596309112
+        "directional_rows": 416,
+        "correct": 223,
+        "accuracy": 0.5360576923076923,
+        "causal_baseline_accuracy": 0.4519230769230769
+      },
+      {
+        "test_start": "2023-10-01 00:00:00",
+        "threshold": 0.53,
+        "logit_scale": 0.35171528541526964,
+        "signal_span": 4.757036186099943,
+        "calibration_directional_rows": 1741,
+        "calibration_accuracy": 0.5336013785180931,
+        "directional_rows": 451,
+        "correct": 269,
+        "accuracy": 0.5964523281596452,
+        "causal_baseline_accuracy": 0.5964523281596452
       },
       {
         "test_start": "2024-01-01 00:00:00",
         "threshold": 0.49,
+        "logit_scale": 0.3585486765094556,
+        "signal_span": 4.729881823297693,
         "calibration_directional_rows": 1777,
         "calibration_accuracy": 0.5548677546426561,
-        "directional_rows": 907,
-        "correct": 481,
-        "accuracy": 0.5303197353914002,
-        "causal_baseline_accuracy": 0.5060639470782801
+        "directional_rows": 445,
+        "correct": 254,
+        "accuracy": 0.5707865168539326,
+        "causal_baseline_accuracy": 0.5460674157303371
+      },
+      {
+        "test_start": "2024-04-01 00:00:00",
+        "threshold": 0.48,
+        "logit_scale": 0.3495208960897896,
+        "signal_span": 4.76437108708025,
+        "calibration_directional_rows": 1757,
+        "calibration_accuracy": 0.5754126351735913,
+        "directional_rows": 462,
+        "correct": 222,
+        "accuracy": 0.4805194805194805,
+        "causal_baseline_accuracy": 0.4675324675324675
       },
       {
         "test_start": "2024-07-01 00:00:00",
         "threshold": 0.53,
+        "logit_scale": 0.369690027553243,
+        "signal_span": 4.81838819523269,
         "calibration_directional_rows": 1762,
         "calibration_accuracy": 0.5561861520998865,
-        "directional_rows": 954,
-        "correct": 523,
-        "accuracy": 0.5482180293501048,
-        "causal_baseline_accuracy": 0.5146750524109015
+        "directional_rows": 484,
+        "correct": 246,
+        "accuracy": 0.5082644628099173,
+        "causal_baseline_accuracy": 0.4896694214876033
+      },
+      {
+        "test_start": "2024-10-01 00:00:00",
+        "threshold": 0.505,
+        "logit_scale": 0.34838167083237326,
+        "signal_span": 4.805464480874317,
+        "calibration_directional_rows": 1830,
+        "calibration_accuracy": 0.553551912568306,
+        "directional_rows": 470,
+        "correct": 267,
+        "accuracy": 0.5680851063829787,
+        "causal_baseline_accuracy": 0.5404255319148936
       },
       {
         "test_start": "2025-01-01 00:00:00",
         "threshold": 0.505,
+        "logit_scale": 0.3622575450275816,
+        "signal_span": 4.770146024878312,
         "calibration_directional_rows": 1849,
         "calibration_accuracy": 0.531638723634397,
-        "directional_rows": 887,
-        "correct": 470,
-        "accuracy": 0.5298759864712514,
-        "causal_baseline_accuracy": 0.4746335963923337
+        "directional_rows": 460,
+        "correct": 261,
+        "accuracy": 0.5673913043478261,
+        "causal_baseline_accuracy": 0.4217391304347826
+      },
+      {
+        "test_start": "2025-04-01 00:00:00",
+        "threshold": 0.53,
+        "logit_scale": 0.4086646444036979,
+        "signal_span": 4.715128755364807,
+        "calibration_directional_rows": 1864,
+        "calibration_accuracy": 0.5370171673819742,
+        "directional_rows": 427,
+        "correct": 205,
+        "accuracy": 0.48009367681498827,
+        "causal_baseline_accuracy": 0.531615925058548
       }
     ]
   }

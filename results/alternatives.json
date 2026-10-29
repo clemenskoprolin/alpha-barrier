@@ -1,0 +1,97 @@
+{
+  "status": "negative_results",
+  "question": "Does a different model class, or averaging over the arbitrary label horizon, beat the published logistic regression?",
+  "protocol": {
+    "features": "23 momentum and matured-outcome features",
+    "fold_grid_offsets": [
+      0
+    ],
+    "periods": [
+      "pre_development",
+      "development",
+      "later",
+      "all"
+    ],
+    "execution": "the current continuous rule, identical for every candidate",
+    "label_horizon_bars": 12,
+    "horizon_ladder": [
+      6,
+      12,
+      24
+    ],
+    "seconds": {
+      "published_logistic": 4.9,
+      "bagged_logistic": 69.2,
+      "gradient_boosting": 69.0,
+      "horizon_ladder": 13.7
+    }
+  },
+  "model_classes": {
+    "published_logistic": {
+      "directional_accuracy": 0.5384687779398617,
+      "sharpe": {
+        "pre_development": 1.5880407422820775,
+        "development": 1.1928206734883584,
+        "later": 0.23724084877616802,
+        "all": 1.4290221269065242
+      }
+    },
+    "bagged_logistic": {
+      "directional_accuracy": 0.5371982494941414,
+      "sharpe": {
+        "pre_development": 1.5828998347666166,
+        "development": 1.1898272056599812,
+        "later": 0.18801081232262193,
+        "all": 1.423846458054735
+      }
+    },
+    "gradient_boosting": {
+      "directional_accuracy": 0.5273163615829843,
+      "sharpe": {
+        "pre_development": 1.6338628532566108,
+        "development": 1.1210938761743472,
+        "later": 0.10672808608154047,
+        "all": 1.4400087960851462
+      }
+    }
+  },
+  "label_horizon": {
+    "horizons": {
+      "6": {
+        "directional_accuracy": 0.5359101243814364,
+        "sharpe": {
+          "pre_development": 1.7231627701340932,
+          "development": 1.0838820353018872,
+          "later": -0.7056040189762817,
+          "all": 1.4803361754626692
+        }
+      },
+      "12": {
+        "directional_accuracy": 0.5384687779398617,
+        "sharpe": {
+          "pre_development": 1.5880407422820775,
+          "development": 1.1928206734883584,
+          "later": 0.23724084877616802,
+          "all": 1.4290221269065242
+        }
+      },
+      "24": {
+        "directional_accuracy": 0.5336707044947402,
+        "sharpe": {
+          "pre_development": 1.4566127424030006,
+          "development": 1.0669867402345161,
+          "later": -0.12011981516614095,
+          "all": 1.2948439777959657
+        }
+      }
+    },
+    "ladder": {
+      "sharpe": {
+        "pre_development": 1.6306888417259682,
+        "development": 0.9814752896241299,
+        "later": -0.19601694351977775,
+        "all": 1.406408228766714
+      }
+    }
+  }
+}
